@@ -5,7 +5,7 @@ function setup() {
 let u = {
     x : 250,
     y : 525,
-    spd : 5,
+    spd : 10,
     width : 90,
     height : 30
 }
@@ -85,13 +85,6 @@ function draw(){
         al.left = true
         al.right = false
     }
-    //Direction: Down//
-    for (i=0; i < al.yes.length; i++){
-        al.y[i]+=al.downSpd
-        if (al.y[i] > u.y){
-            gameOver()
-        }
-    }
     console.log(al.y[1])
     //Rectangle//
     rect(u.x, u.y, u.width, u.height)
@@ -145,12 +138,15 @@ function draw(){
     }
     //Next Round//
     if (!al.yes[0] && !al.yes[1] && !al.yes[2] && !al.yes[3] && !al.yes[4]){
-        al.spd += .7
-        al.downSpd += .5
-        level += 1
-        for (i = 0; i < al.yes.length; i++){
-            al.yes[i] = true
-            al.y[i] = 100
+        setTimeout(nextRound(), 100000)
+        
+    }
+    //Direction: Down//
+    for (i=0; i < al.yes.length; i++){
+        al.y[i]+=al.downSpd
+        if (al.y[i] > u.y){
+            gameOver()
+            noLoop();
         }
     }
 }
@@ -162,6 +158,20 @@ function keyPressed(){
         dumbCounter = counter
         bul.x[counter] = u.x + (u.width/2);
     }
+}
+
+function nextRound(){
+    al.spd += .7
+        al.downSpd += .5
+        level += 1
+        for (i = 0; i < bul.y.length; i++){
+            bul.y[i] = -100
+            dcYes = true
+        }
+        for (i = 0; i < al.yes.length; i++){
+            al.yes[i] = true
+            al.y[i] = 100
+        }
 }
 
 function gameOver() {
@@ -176,4 +186,5 @@ function gameOver() {
     textSize(22);
     fill(0,0,0);
     text("Restart", 265, 350);
+
 }
